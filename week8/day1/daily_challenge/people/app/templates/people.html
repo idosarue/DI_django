@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for p in person %}
+    <h1>{{ p.name|title|slugify|safeseq|join:", "|urlize }}</h1>
+    <ul>
+        <li>id: {{ p.id }}</li>
+        <li>name: {{ p.name|truncatechars:3|lower|linenumbers }}, {{p.name|wordcount}}</li>
+        <li>age: {{ p.age|make_list }}</li>
+        <li>country: {{ p.country|upper|random }}</li>
+    {% endfor %}
+    </ul> 
+
+    
+</body>
+</html>
