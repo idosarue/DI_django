@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+        {% if messages %}
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        {% else %}
+            {% for p in person  %}
+                <li>{{p.name}}</li>
+                <li>{{p.email}}</li>
+                <li>{{p.phoneNumber}}</li>
+                <li>{{p.address}}</li>
+            {% endfor %}
+        {% endif %}
+    {% endblock %}

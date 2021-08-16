@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Add person to database</h1>
+    {% if submitted %}
+        submitted succefully!!!
+    {% else %}    
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit">
+        </form>
+    {% endif %}
+{% endblock %}
