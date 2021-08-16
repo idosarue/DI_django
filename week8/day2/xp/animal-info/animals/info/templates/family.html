@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+{% block content%}
+    {% for animal in family|slice:1 %}
+        <h1>{{animal.family.name}}</h1>
+    {% endfor %}
+    <ul>
+        {% for animal in family %}
+        <li>name: {{animal.name}}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
