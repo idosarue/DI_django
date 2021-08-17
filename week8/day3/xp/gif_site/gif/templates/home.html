@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+    {% block content %}
+        <nav>
+            <ul>
+                <li><a href="{% url 'gif' %}">add gif</a></li>
+                <li><a href="{% url 'categories' %}">add category</a></li>
+
+            </ul>
+        </nav>
+
+        <h1>home</h1>
+        {% for img in images %}
+            <img src="{{img}}" alt="asd">
+        {% endfor %}
+    {% endblock %}

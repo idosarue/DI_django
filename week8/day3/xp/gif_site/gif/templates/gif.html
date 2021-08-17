@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+    {% block content%}
+    {% for gif in gifs %}
+        <img src="{{gif}}" alt="gif">
+    {% endfor %}
+    {% endblock %}
