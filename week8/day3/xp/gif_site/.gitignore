@@ -1,0 +1,4 @@
+gif_site/local_settings
+env/
+__pycache__/
+*/__pycache__/
