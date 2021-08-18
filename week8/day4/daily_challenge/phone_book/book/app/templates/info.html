@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+            {% for p in person  %}
+                <li>{{p.name}}</li>
+                <li>{{p.email}}</li>
+                <li>{{p.phone_number}}</li>
+                <li>{{p.address}}</li>
+            {% endfor %}
+
+    {% endblock %}
