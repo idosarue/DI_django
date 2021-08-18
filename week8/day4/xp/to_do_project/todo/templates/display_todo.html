@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+    <ul>
+        {% for detail in details %}
+            <li>details: {{detail.title}}</li>
+            <li>creatrion date: {{detail.date_creation}}</li>
+            <li>deadline: {{detail.deadline_date}}</li>
+            <li>category: {{detail.category}}</li>
+            <li><a class="btn btn-success" href="{% url 'done' detail.id %}">Done</a></li>
+            <li><a class="btn btn-danger" href="{% url 'delete_task' detail.id %}">Delete task</a></li>
+        {% endfor%}
+        
+    </ul>
+{% endblock %}
