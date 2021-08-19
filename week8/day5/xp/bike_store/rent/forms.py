@@ -14,6 +14,15 @@ def validate_vehicle_id(vehicle_id):
         if not vehicle.is_returned():
             raise forms.ValidationError('The vehicle is currently rented.')
 
+def validate_customer_email(email):
+    if Customer.objects.filter(email=email).exists():
+        raise forms.ValidationError('The email already exists.')
+
+
+def validate_customer_phone(phone_number):
+    if Customer.objects.filter(phone_number=phone_number).exists():
+        raise forms.ValidationError('The phone number already exists.')
+
 
 class RentForm(forms.Form):
     vehicle_id = forms.IntegerField(min_value=1,
@@ -30,8 +39,17 @@ class RentForm(forms.Form):
 class AddCustomerForm(forms.Form):
     first_name = forms.CharField(max_length=10)
     last_name = forms.CharField(max_length=30)
-    email = forms.EmailField()
-    phone_number = PhoneNumberField()
+   
+    email = forms.EmailField(
+        error_messages={'required': 'Please enter a value'},
+       widget= forms.TextInput(attrs={'placeholder':'Kia'}),
+       validators=[validate_customer_email]
+    )
+    phone_number = PhoneNumberField(
+        error_messages={'required': 'Please enter a value'},
+       widget= forms.TextInput(attrs={'placeholder':'Kia'}),
+       validators=[validate_customer_phone]
+    )
     address = forms.CharField(max_length=30)
     city = forms.CharField(max_length=30)
     country = forms.CharField(max_length=30)

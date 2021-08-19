@@ -5,9 +5,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 class Customer(models.Model):
     first_name = models.CharField(max_length=10)
-    last_name = models.CharField(max_length=30, unique=True)
+    last_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
-    phone_number = PhoneNumberField()
+    phone_number = PhoneNumberField(unique=True)
     address = models.CharField(max_length=30)
     city = models.CharField(max_length=30)
     country = models.CharField(max_length=30)

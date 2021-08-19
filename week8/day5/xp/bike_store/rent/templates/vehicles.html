@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1></h1>
+    <ul>
+        {% for vehicle in vehicles%}
+            <li>Vehicle Type: {{vehicle.vehicle.name}}</li>
+            <li>Vehicle Size: {{vehicle.size.name}}</li>
+            <li>Vehicle price: {{vehicle.real}}</li>
+
+            <hr>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}

@@ -4,6 +4,7 @@ from django.db.models import F
 from .models import *
 from .forms import *
 from datetime import datetime
+from django.db.models import Count
 # Create your views here.
 
     # rental_date = models.DateField()
@@ -42,3 +43,25 @@ def show_customer(request, pk):
 def show_customers(request):
     f = Customer.objects.all().order_by('first_name')
     return render(request, 'customers.html', {'customers' : f})
+
+def add_customer(request):
+    if request.method == 'GET':
+        form = AddCustomerForm()
+    elif request.method == 'POST':
+        form = AddCustomerForm(request.POST)
+        if form.is_valid():
+            Customer.objects.create(**form.cleaned_data)
+            return redirect('rental')
+    return render(request, 'add_customer.html', {'form' : form})
+
+def show_vehicles(request):
+    f = Vehicle.objects.all().order_by('vehicle_id')
+    return render(request, 'vehicles.html', {'vehicles' : f})
+
+
+def show_vehicle(request,pk=1):
+    f = get_object_or_404(Rental,id=pk)
+    # a = get_object_or_404(Rental,id=pk)
+
+    print(f)
+    return render(request, 'vehicle.html', {'vehicle' : f})
