@@ -101,24 +101,11 @@ def create_rentals():
     x = random.choice(range(100))
     customer = Customer.objects.all()
     vehicle = Vehicle.objects.all()
-    rental_date=fake.past_date(start_date='-1y')
-    return_date = fake.date_between(start_date='-11m', end_date='-3m')
-    # for i in range(100):    
-    #     Rental.objects.create(rental_date=rental_date, customer=customer[i],vehicle=vehicle[i])
-    
+    for i in range(100):    
+        Rental.objects.create(rental_date=fake.date_between(start_date='-2y', end_date='-1y'), customer=customer[i],vehicle=vehicle[i])
+
     for i in range(x):
-        print(i)
-        Rental.objects.filter(id=i).update(return_date=return_date)
-
-
+        Rental.objects.filter(id=i).update(return_date=fake.date_between(start_date='-51w', end_date='-1w'))
 # create_rentals()
 
 
-# def update_rental():
-#     x = random.choice(range(100))
-
-#     for i in range(x):
-#         print(x)
-#         return_date = fake.date_between(start_date='-11m', end_date='-3m')
-#         Rental.objects.filter(id=i).update(return_date=return_date)
-# update_rental()

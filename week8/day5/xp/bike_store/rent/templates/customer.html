@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <ul>
+        <li>Name: {{customer.first_name}}, {{customer.last_name}}</li>
+        <li>Phone number: {{customer.phone_number}}</li>
+        <li>Email Address: {{customer.email}}</li>
+        <li>Address: {{customer.address}}</li>
+        <li>City, Country: {{customer.city}}, {{customer.country}}</li>
+    </ul>
+
+
+{% endblock %}

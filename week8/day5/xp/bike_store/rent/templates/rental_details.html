@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- class Customer(models.Model):
+    first_name = models.CharField(max_length=10)
+    last_name = models.CharField(max_length=30, unique=True)
+    email = models.EmailField(unique=True)
+    phone_number = PhoneNumberField()
+    address = models.CharField(max_length=30)
+    city = models.CharField(max_length=30)
+    country = models.CharField(max_length=30) -->
+
+    <ul>
+        <li>Vehicle Type: {{details.vehicle.vehicle.name}}</li>
+        <li>Vehilce Size: {{details.vehicle.size.name}}</li>
+        <li>Name: {{details.customer.first_name}}, {{details.customer.last_name}}</li>
+        <li>Phone number: {{details.customer.phone_number}}</li>
+        <li>Email Address: {{details.customer.email}}</li>
+        <li>Address: {{details.customer.address}}</li>
+        <li>City, Country: {{details.customer.city}}, {{details.customer.country}}</li>
+        {% if details.return_date == none %}
+            <li>Not returned yet</li>
+        {% else %}
+            <li>Returned on: {{details.return_date}}</li>
+        {% endif %}
+    </ul>
+
+
+{% endblock %}
