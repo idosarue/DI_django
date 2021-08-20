@@ -1,0 +1,7 @@
+course_nots/
+daily_challenge/env/
+xp/animal_info
+xp/animals/animals/__pycache__
+xp/animals/animals/local_settings.py
+xp/animals/db.sqlite3
+xp/animals/my_app/__pycache__

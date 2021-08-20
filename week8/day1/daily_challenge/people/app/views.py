@@ -23,8 +23,6 @@ def people(request, num):
         for item in x['people']:
             if item['id'] == num:
                 people_li.append(item) 
-                # for key, value in item.items(): 
-                #     people_li.append(f'{key} : {value}') another way
         print(people_li)
         context = {
             'person' : people_li,

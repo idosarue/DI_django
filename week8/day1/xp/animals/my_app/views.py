@@ -9,9 +9,9 @@ with open("animals.json", "r") as f :
     x = json.load(f)
 
 
-MESSAGE_TAGS = {
-    messages.INFO: '',
-}
+# MESSAGE_TAGS = {
+#     messages.INFO: '',
+# }
 
 def family(request, num):
     animal_li= []
@@ -34,9 +34,7 @@ def animal(request, num):
     else:
         for item in x['animals']:
             if item['id'] == num:
-                for key, value in item.items():
-                    if key != 'id':
-                        info_li.append(f'{key} : {value}')
+                info_li.append(item)
         context = {
             'animals' : info_li,
         }
