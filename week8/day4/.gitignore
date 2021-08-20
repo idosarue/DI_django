@@ -1,0 +1,5 @@
+env/
+.code
+daily_challenge/phone_book/book/app/__pycache__
+daily_challenge/phone_book/book/book/__pycache__
+daily_challenge/phone_book/book/db.sqlite3

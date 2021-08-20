@@ -16,8 +16,8 @@ def check(phone_number):
         raise forms.ValidationError('One of fields is required')
 
 class SearchPersonForm(forms.Form):
-    name = forms.CharField(max_length=20, required=False)
-    phone_number = PhoneNumberField(required=False,
+    name = forms.CharField(max_length=20)
+    phone_number = PhoneNumberField(
     validators=[check], # Call the validate_name function here
         widget = forms.TextInput(
             attrs={
