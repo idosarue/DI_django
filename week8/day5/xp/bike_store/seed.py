@@ -59,7 +59,7 @@ def generate_customer(num):
         last_name = create_last_name(num)
         email = create_email(num)
         phone_num = create_phone_num(num)
-        address = create_first_name(num)
+        address = create_address(num)
         city = create_city(num)
         country= create_country(num)
         Customer.objects.create(first_name=first_name,last_name=last_name,email=email,phone_number=phone_num,address=address,city=city,country=country)
