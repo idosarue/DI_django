@@ -1,9 +1,10 @@
-
+from django.utils import timezone
 import os
 import django
 from faker import Faker
 from faker.providers.person.en import Provider
 import random
+from django.db.models import F 
 
 
 fake = Faker()
@@ -69,7 +70,7 @@ def generate_customer(num):
         address = Address.objects.all()
         Customer.objects.create(first_name=first_name,last_name=last_name,email=email,phone_number=phone_num, city=city[i], country=country[i], address=address[i])
 
-# generate_customer(100)
+generate_customer(100)
 
 def create_vehicle_type():
     names_li = ['Road Bike', 'Mountain Bike','BMX', 'Folding Bike']
@@ -132,15 +133,14 @@ def genereate_rental_station(num):
         RentalStation.objects.create(name=name[i].address, address=address[i], capacity=capacity)
 
 # genereate_rental_station(10)
-# class Address(models.Model):
-#     address = models.CharField(max_length=80)
-#     address2 = models.CharField(max_length=80)
-#     city = models.CharField(max_length=30)
-#     country = models.CharField(max_length=30)
-#     postal_code = models.CharField(max_length=200)
+def vehicle_at_station():
+    arrived_at = Rental.objects.filter(return_date__isnull=False)
+    departure_date = Rental.objects.filter(return_date__isnull=False)
+    vehicle = Rental.objects.all().filter(return_date__isnull=False)
+    station= RentalStation.objects.all()
+    for i in range(len(vehicle)):
+        for i in range(len(station)):
+            VehicleAtRentalStation.objects.create(arrival_date=arrived_at[i].return_date, departure_date=departure_date[i].rental_date, vehicle=vehicle[i].vehicle, station=station[i])
+# vehicle_at_station()
 
-# class RentalStation(models.Model):
-#     name = models.CharField(max_length=80)
-#     capacity = models.IntegerField()
-#     address = models.ForeignKey(Address, on_delete=CASCADE)
 

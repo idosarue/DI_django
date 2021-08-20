@@ -16,12 +16,15 @@
         <li>Email Address: {{details.customer.email}}</li>
         <li>Address: {{details.customer.address}}</li>
         <li>City, Country: {{details.customer.city}}, {{details.customer.country}}</li>
+        <li>Station: {{station.station.name}}</li>
         {% if details.return_date == none %}
-            <li>Not returned yet</li>
+            <li>{{details.rental_date|timesince}}</li>
         {% else %}
             <li>Returned on: {{details.return_date}}</li>
         {% endif %}
     </ul>
+
+
 
 
 {% endblock %}

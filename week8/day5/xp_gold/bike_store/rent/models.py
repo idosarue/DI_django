@@ -1,7 +1,8 @@
 from django.db import models
 from django.db.models.deletion import CASCADE, PROTECT
 from phonenumber_field.modelfields import PhoneNumberField
-
+from django.utils import timezone
+import pytz
 # Create your models here.
 
 
@@ -19,9 +20,6 @@ class RentalStation(models.Model):
     name = models.CharField(max_length=80)
     capacity = models.IntegerField()
     address = models.ForeignKey(Address, on_delete=CASCADE)
-
-    def __str__(self):
-        return f'{self.name}'
 
 class Customer(models.Model):
     first_name = models.CharField(max_length=10)
@@ -53,8 +51,8 @@ class Vehicle(models.Model):
 
 
 class Rental(models.Model):
-    rental_date = models.DateField()
-    return_date = models.DateField(null=True)
+    rental_date = models.DateTimeField()
+    return_date = models.DateTimeField(null=True)
     customer = models.ForeignKey(Customer, on_delete=CASCADE)
     vehicle = models.ForeignKey(Vehicle, on_delete=PROTECT)
 
@@ -76,4 +74,8 @@ class RentalRate(models.Model):
     vehicle_type = models.ForeignKey(VehicleType, on_delete=PROTECT)
     vehicle_size = models.ForeignKey(VehicleSize, on_delete=PROTECT)
 
-
+class VehicleAtRentalStation(models.Model):
+    arrival_date = models.DateTimeField()
+    departure_date = models.DateTimeField(null=True)
+    vehicle = models.ForeignKey(Vehicle, on_delete=PROTECT)
+    station = models.ForeignKey(RentalStation, on_delete=PROTECT, default=1)

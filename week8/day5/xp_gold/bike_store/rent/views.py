@@ -13,12 +13,13 @@ from django.db.models import Count
     # vehicle =
 def rent(request):
     f = Rental.objects.all().order_by(F('return_date').asc(nulls_last=False))
+    
     return render(request, 'rental.html', {'rentals' : f})
 
 def rental_details(request, pk):
     f = get_object_or_404(Rental, pk=pk)
-    print(f)
-    return render(request, 'rental_details.html', {'details' : f})
+    a = get_object_or_404(VehicleAtRentalStation, pk=pk)
+    return render(request, 'rental_details.html', {'details' : f, 'station' : a})
 
 def display_rental_details(request, pk):
     f = get_object_or_404(Rental, pk=pk)
