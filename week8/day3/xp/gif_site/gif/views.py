@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
 from .forms import  CategoryForm, GifForm, likeForm
 from .models import Gif, Category
 
@@ -35,9 +35,8 @@ def category(request, category_id):
 
 
 def gif(request, gif_id):
-    f = Gif.objects.filter(id=gif_id).values_list('url',flat=True)
-    if not f:
-        return HttpResponse('gif does not exist')
+    # f = Gif.objects.filter(id=gif_id).values_list('url',flat=True)
+    f = get_object_or_404(Gif, id=gif_id)
     return render(request, 'gif.html', {'gifs' : f}) 
 
 def categories(request):
@@ -46,21 +45,16 @@ def categories(request):
     return render(request, 'categories.html', {'categories' : f})
 
 
-def like(request):
-    # f = Gif.objects.()
-
+def like(id):
+    f = get_object_or_404(Gif, id=id)
     # if the submit button was clicked
-    if request.method == 'POST':
-        # POST, generate form with data from the request
-        
-        form = likeForm(request.POST)
-        # check if it's valid:
-        if form.is_valid():
-            like_li = []
-            print(form)
-            like = form.cleaned_data['likes']
-            return render(request, 'likes.html')
-    else:
-        # GET, generate blank form
-        form = likeForm()
-    return render(request, 'likes.html', {'form' : form})
+    f.likes +=1
+    f.save()
+    return redirect('gifs', id)
+
+def dislike( id):
+    f = get_object_or_404(Gif, id=id)
+    # if the submit button was clicked
+    f.likes -=1
+    f.save()
+    return redirect('gifs', id)
