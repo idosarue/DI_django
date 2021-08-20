@@ -77,7 +77,6 @@ def add_vehicle(request):
         if form.is_valid():
             size = form.cleaned_data['size']
             print(size.id)
-                # price_li = [700, 1000, 300, 500]
             if size.id == 1:
                 real = 700
             elif size.id == 2:
@@ -87,4 +86,5 @@ def add_vehicle(request):
             else:
                 real = 500
             Vehicle.objects.create(**form.cleaned_data, real=real)
+            return redirect('rental')
     return render(request, 'add_vehicle.html', {'form' : form})

@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+    
+    <a href="{% url 'add_customers' %}">Add Customer</a>
+    <a href="{% url 'add_vehicle' %}">Add Vehicle</a>
+    <a href="{% url 'show_customers' %}">All Customers</a>
+    <a href="{% url 'show_vehicles' %}">All Vehicles</a>
+    <a href="{% url 'add_rental' %}">Add Rentals</a>
+
+
 
     <ul>
         {% for rental in rentals %}

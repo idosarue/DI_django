@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+<a href="{% url 'show_customers' %}">All Customers</a>
+<a href="{% url 'show_vehicles' %}">All Vehicles</a>
+<a href="{% url 'rental' %}">All Rentals</a>
+<a href="{% url 'add_rental' %}">Add Rental</a>
+<a href="{% url 'add_customers' %}">Add Customer</a>
 
+<h1>Add Vehicle</h1>
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}

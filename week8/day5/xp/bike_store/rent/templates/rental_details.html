@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+<a href="{% url 'show_customers' %}">All Customers</a>
+<a href="{% url 'show_vehicles' %}">All Vehicles</a>
+<a href="{% url 'rental' %}">All Rentals</a>
+<a href="{% url 'add_rental' %}">Add Rental</a>
+<a href="{% url 'add_vehicle' %}">Add Vehicle</a>
+<a href="{% url 'add_customers' %}">Add Customer</a>
+
+<h1>Vehicle Info</h1>
     <ul>
         <li>Vehicle Type: {{details.vehicle.vehicle.name}}</li>
         <li>Vehilce Size: {{details.vehicle.size.name}}</li>

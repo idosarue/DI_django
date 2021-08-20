@@ -55,3 +55,5 @@ class RentalRate(models.Model):
     daily_rate = models.IntegerField()
     vehicle_type = models.ForeignKey(VehicleType, on_delete=PROTECT)
     vehicle_size = models.ForeignKey(VehicleSize, on_delete=PROTECT)
+
+
