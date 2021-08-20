@@ -1,4 +1,4 @@
-from .models import Customer, Rental
+from .models import Customer, Rental, Vehicle, VehicleSize, VehicleType
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 
@@ -53,3 +53,19 @@ class AddCustomerForm(forms.Form):
     address = forms.CharField(max_length=30)
     city = forms.CharField(max_length=30)
     country = forms.CharField(max_length=30)
+
+
+class AddVehicleForm(forms.Form):
+    vehicle = forms.ModelChoiceField(queryset=VehicleType.objects.all())
+    size = forms.ModelChoiceField(queryset=VehicleSize.objects.all())
+
+    def prices(self):
+        if self.size == 'very big':
+            self.real = 1000
+
+
+    # class Vehicle(models.Model):
+    # vehicle = models.ForeignKey(VehicleType, on_delete=models.PROTECT)
+    # date = models.DateField()
+    # real = models.IntegerField()
+    # size = models.ForeignKey(VehicleSize, on_delete=models.PROTECT)

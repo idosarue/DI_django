@@ -65,3 +65,26 @@ def show_vehicle(request,pk=1):
 
     print(f)
     return render(request, 'vehicle.html', {'vehicle' : f})
+
+
+
+
+def add_vehicle(request):
+    if request.method == 'GET':
+        form = AddVehicleForm()
+    elif request.method == 'POST':
+        form = AddVehicleForm(request.POST)
+        if form.is_valid():
+            size = form.cleaned_data['size']
+            print(size.id)
+                # price_li = [700, 1000, 300, 500]
+            if size.id == 1:
+                real = 700
+            elif size.id == 2:
+                real = 1000
+            elif size.id == 3:
+                real = 300
+            else:
+                real = 500
+            Vehicle.objects.create(**form.cleaned_data, real=real)
+    return render(request, 'add_vehicle.html', {'form' : form})

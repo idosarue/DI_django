@@ -16,14 +16,19 @@ class Customer(models.Model):
 class VehicleType(models.Model):
     name = models.CharField(max_length=40)
 
+    def __str__(self):
+        return self.name
 
 class VehicleSize(models.Model):
     name = models.CharField(max_length=40)
 
+    def __str__(self):
+        return self.name
+
 class Vehicle(models.Model):
     vehicle = models.ForeignKey(VehicleType, on_delete=models.PROTECT)
-    date = models.DateField()
-    real = models.IntegerField()
+    date = models.DateField(auto_now_add=True)
+    real = models.IntegerField(default=500)
     size = models.ForeignKey(VehicleSize, on_delete=models.PROTECT)
 
 
@@ -33,12 +38,6 @@ class Rental(models.Model):
     customer = models.ForeignKey(Customer, on_delete=CASCADE)
     vehicle = models.ForeignKey(Vehicle, on_delete=PROTECT)
 
-    
-    def __str__(self):
-        return f'{self.vehicle.vehicle.name},{self.rental_date}, {self.customer.first_name}'
-
-    # def __str__(self):
-    #     return f'{self.rental_date}'
     
     def is_returned(self):
         if self.return_date:
