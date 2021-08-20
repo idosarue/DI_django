@@ -1,0 +1,100 @@
+
+# Query all objects of a table
+MODELNAME.objects.all()
+# Query unique single object
+MODELNAME.objects.get(id=1)
+# Query multiple objects
+MODELNAME.objects.filter(manufacturer='Ford', top_speed=35)
+
+
+#creating an object
+MODELNAME.objects.create(manufacturer='Kia', model_name='pinto', color='Gold', milage=4500, top_speed=100)
+
+#OR 
+myobj = MODELNAME(manufacturer='Lexus', model_name='class s', color='silver', milage=0)
+myobj.save()
+
+# updating an object
+v = MODELNAME.objects.get(id=1)
+v.color = 'other color'
+v.save()
+
+# update (multiple objects/queryset only!!!)
+queryset = MODELNAME.objects.all()
+queryset.update(**kwargs)
+
+# delete object or queryset
+v.delete()
+queryset.delete()
+
+# Query all objects of a table
+MODELNAME.objects.all()
+# Query unique single object
+MODELNAME.objects.get(id=1)
+# Query multiple objects
+MODELNAME.objects.filter(manufacturer='Ford', top_speed=35)
+
+
+class Person(models.Model):
+    first_name = models.CharField(max_length=80)
+    last_name = models.CharField(max_length=80)
+    
+
+class Vehicle(models.Model):
+    manufacturer = models.CharField(max_length=80)
+    model_name = models.CharField(max_length=80)
+    color = models.CharField(max_length=80)
+    milage = models.IntegerField()
+    top_speed = models.IntegerField(default=50)
+    owner = models.ForeignKey(Person, on_delete=models.PROTECT)
+
+p = Person.objects.get(id=1)
+
+#accessing the reverse relationship between vehicle and person
+p.vehicle_set.all() 
+# OBJECT.RELATEDOBJECT_set.all()
+
+# accessing the foreignkey normally
+v = Vehicle.objects.get(id=1)
+v.owner 
+
+# creating an object with a fk
+Vehicle.objects.create(manufacturer='Kia', model_name='pinto', color='red', milage=100, owner=p)
+Vehicle.objects.create(manufacturer='Kia', model_name='pinto', color='red', milage=100, owner_id=1)
+
+p.vehicle_set.create(model_name='model e', manufacturer='Tesla', top_speed=150, milage=20000)
+# filter through a related models info
+Person.objects.filter(vehicle__manufacturer='Ford Motors')
+
+
+
+
+creating a new page/view
+
+1. create a view, the view will take a request and return a render of a html
+2. create said html file for the view to render
+3. create a url (path) in the apps url file
+4. profit???
+
+
+
+starting a fresh project:
+1. create project folder
+2. cd into folder and create & activate a new env
+3. pip install django
+4. django-admin startproject PROJECTNAME
+5. cd PROJECTNAME
+    5a. python manage.py startapp APPNAME
+    5b. register your app in INSTALLED_APPS
+6. python manage.py migrate
+7. python manage.py createsuperuser
+8. run the project / create models
+
+
+
+
+creating/updating models
+1. go into apps models.py 
+2. create/edit the desired class (that inherits from models.Model!!)
+3. python manage.py makemigrations (creates insturction set for the database)
+4. python manage.py migrate (execute said instructions)

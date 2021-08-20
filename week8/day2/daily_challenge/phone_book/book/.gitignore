@@ -1,2 +1,3 @@
 book/local_settings.py
 env/
+__pycahce__/
