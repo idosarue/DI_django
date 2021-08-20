@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'show_customers' %}">All Customers</a>
+<a href="{% url 'show_vehicles' %}">All Vehicles</a>
+<a href="{% url 'rental' %}">All Rentals</a>
+<a href="{% url 'add_rental' %}">Add Rental</a>
+<a href="{% url 'add_vehicle' %}">Add Vehicle</a>
+<a href="{% url 'add_customers' %}">Add Customer</a>
+
+<h1>Vehicle Info</h1>
+    <ul>
+        <li>Vehicle Type: {{details.vehicle.vehicle.name}}</li>
+        <li>Vehilce Size: {{details.vehicle.size.name}}</li>
+        <li>Name: {{details.customer.first_name}}, {{details.customer.last_name}}</li>
+        <li>Phone number: {{details.customer.phone_number}}</li>
+        <li>Email Address: {{details.customer.email}}</li>
+        <li>Address: {{details.customer.address}}</li>
+        <li>City, Country: {{details.customer.city}}, {{details.customer.country}}</li>
+        {% if details.return_date == none %}
+            <li>Not returned yet</li>
+        {% else %}
+            <li>Returned on: {{details.return_date}}</li>
+        {% endif %}
+    </ul>
+
+
+{% endblock %}

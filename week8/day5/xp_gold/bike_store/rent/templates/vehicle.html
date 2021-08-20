@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'show_customers' %}">All Customers</a>
+<a href="{% url 'show_vehicles' %}">All Vehicles</a>
+<a href="{% url 'rental' %}">All Rentals</a>
+<a href="{% url 'add_rental' %}">Add Rentals</a>
+    <ul>
+        <li>Vehicle Type: {{vehicle.vehicle.vehicle.name}}</li>
+        <li>Vehicle Size: {{vehicle.vehicle.size.name}}</li>
+        <li>Vehicle price: {{vehicle.vehicle.real}}</li>
+
+        {% if vehicle.return_date == none %}
+            <li>Not returned yet</li>
+        {% else %}
+            <li>Returned on: {{vehicle.return_date}}</li>
+        {% endif %}
+    </ul>
+
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'show_customers' %}">All Customers</a>
+<a href="{% url 'show_vehicles' %}">All Vehicles</a>
+<a href="{% url 'rental' %}">All Rentals</a>
+<a href="{% url 'add_rental' %}">Add Rental</a>
+<a href="{% url 'add_vehicle' %}">Add Vehicle</a>
+    <ul>
+        <li>Name: {{customer.first_name}}, {{customer.last_name}}</li>
+        <li>Phone number: {{customer.phone_number}}</li>
+        <li>Email Address: {{customer.email}}</li>
+        <li>Address: {{customer.address}}</li>
+        <li>City, Country: {{customer.city}}, {{customer.country}}</li>
+    </ul>
+
+
+{% endblock %}
