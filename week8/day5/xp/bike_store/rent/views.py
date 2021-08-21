@@ -1,6 +1,5 @@
 from django.http import request, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from django.db.models import F 
 from .models import *
 from .forms import *
 from datetime import datetime
@@ -12,7 +11,7 @@ from django.db.models import Count
     # customer = models.ForeignKey(Customer, on_delete=CASCADE)
     # vehicle =
 def rent(request):
-    f = Rental.objects.all().order_by(F('return_date').asc(nulls_last=False))
+    f = Rental.objects.all().order_by('return_date')
     return render(request, 'rental.html', {'rentals' : f})
 
 def rental_details(request, pk):
