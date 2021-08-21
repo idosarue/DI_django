@@ -29,32 +29,33 @@ class RentForm(forms.Form):
           label="vehicle id", 
         #   help_text='Must contain al least 8 characters', 
           error_messages={'required': 'Please enter a value'},
-           widget= forms.TextInput(attrs={'placeholder':'Kia'}),
+           widget= forms.TextInput(attrs={'placeholder':'Vehicle Id'}),
         validators=[validate_vehicle_id])
     customer_id = forms.IntegerField(min_value=1, 
         error_messages={'required': 'Please enter a value'},
-        widget= forms.TextInput(attrs={'placeholder':'Kia'}),
+        widget= forms.TextInput(attrs={'placeholder':'Customer Id'}),
         validators=[validate_customer_id])
 
 class AddCustomerForm(forms.Form):
     first_name = forms.CharField(max_length=10)
     last_name = forms.CharField(max_length=30)
-   
+    first_name = forms.CharField(max_length=10,
+    widget= forms.TextInput(attrs={'placeholder':'First Name'}))
+    last_name = forms.CharField(max_length=30,
+    widget= forms.TextInput(attrs={'placeholder':'Last Name'}))
     email = forms.EmailField(
         error_messages={'required': 'Please enter a value'},
-       widget= forms.TextInput(attrs={'placeholder':'Kia'}),
+       widget= forms.TextInput(attrs={'placeholder':'Email'}),
        validators=[validate_customer_email]
     )
     phone_number = PhoneNumberField(
         error_messages={'required': 'Please enter a value'},
-       widget= forms.TextInput(attrs={'placeholder':'Kia'}),
+       widget= forms.TextInput(attrs={'placeholder':'Phone Number'}),
        validators=[validate_customer_phone]
     )
     address = forms.CharField(max_length=30)
     city = forms.CharField(max_length=30)
     country = forms.CharField(max_length=30)
-
-
 class AddVehicleForm(forms.Form):
     vehicle = forms.ModelChoiceField(queryset=VehicleType.objects.all())
     size = forms.ModelChoiceField(queryset=VehicleSize.objects.all())
