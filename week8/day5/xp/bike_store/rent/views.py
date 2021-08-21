@@ -4,12 +4,7 @@ from .models import *
 from .forms import *
 from datetime import datetime
 from django.db.models import Count
-# Create your views here.
 
-    # rental_date = models.DateField()
-    # return_date = models.DateField(null=True)
-    # customer = models.ForeignKey(Customer, on_delete=CASCADE)
-    # vehicle =
 def rent(request):
     f = Rental.objects.all().order_by('return_date')
     return render(request, 'rental.html', {'rentals' : f})
