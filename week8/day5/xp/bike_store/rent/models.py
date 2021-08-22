@@ -27,7 +27,7 @@ class VehicleSize(models.Model):
 
 class Vehicle(models.Model):
     vehicle = models.ForeignKey(VehicleType, on_delete=models.PROTECT)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()# mistake
     real = models.IntegerField(default=500)
     size = models.ForeignKey(VehicleSize, on_delete=models.PROTECT)
 

@@ -88,6 +88,11 @@ def create_vehicle(num):
 
 # create_vehicle(25)
 
+# def update_vehicle(num):
+#     for i in range(num):
+#         Vehicle.objects.filter(id=i).update(date=fake.date_between(start_date='-5y', end_date='-1y'))
+# update_vehicle(100)
+
 def create_rental_rate():
     rates = [40,50,20,30]
     size_li = VehicleSize.objects.all()

@@ -64,9 +64,3 @@ class AddVehicleForm(forms.Form):
         if self.size == 'very big':
             self.real = 1000
 
-
-    # class Vehicle(models.Model):
-    # vehicle = models.ForeignKey(VehicleType, on_delete=models.PROTECT)
-    # date = models.DateField()
-    # real = models.IntegerField()
-    # size = models.ForeignKey(VehicleSize, on_delete=models.PROTECT)
