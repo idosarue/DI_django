@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+    {% block content%}
+        <img src="{{gifs.url}}" alt="gif">
+        {{gifs.likes}}
+        <a href="{% url 'likes' gifs.id %}">Like</a>
+        <a href="{% url 'dislikes' gifs.id %}">dislike</a>
+
+    {% endblock %}
