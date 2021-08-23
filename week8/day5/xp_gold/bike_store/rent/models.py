@@ -26,9 +26,9 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
     phone_number = PhoneNumberField(unique=True)
-    address = models.ForeignKey(Address,max_length=30,related_name='home_address', on_delete=CASCADE)
-    city = models.ForeignKey(Address,max_length=30,related_name='city_address', on_delete=CASCADE)
-    country = models.ForeignKey(Address,max_length=30, related_name='country_address', on_delete=CASCADE)
+    address = models.ForeignKey(Address,max_length=30,related_name='home_address', on_delete=CASCADE, default=1)
+    city = models.ForeignKey(Address,max_length=30,related_name='city_address', on_delete=CASCADE, default=1)
+    country = models.ForeignKey(Address,max_length=30, related_name='country_address', on_delete=CASCADE, default=1)
 
 
 class VehicleType(models.Model):
