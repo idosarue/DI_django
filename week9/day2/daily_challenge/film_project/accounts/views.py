@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.views.generic import CreateView, DetailView
 from django.contrib.auth import authenticate, login
-from .models import Profile
+from .models import NewUser, Profile
 from django.contrib.auth import logout
 
 # Create your views here.
@@ -21,9 +21,10 @@ class UserCreationView(CreateView):
     def form_valid(self, form):
         user = form.save()
         user.set_password(form.cleaned_data['password'])
+        Profile.objects.create(user=user)
+        
         user.save()
-        # Profile.objects.create(user=new_user)
-        print(form.cleaned_data)
+        print(form.cleaned_data) 
         user = authenticate(self.request,email=form.cleaned_data['email'], password=form.cleaned_data['password'])
         print(user)
         if user:
