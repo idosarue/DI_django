@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models.deletion import CASCADE
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, is_staff=False, is_admin=False, is_active=True):
+    def create_user(self, email, password, is_staff=False, is_admin=False, is_active=True):
         if not email:
             raise ValueError("Users must have an email address")
         if not password:

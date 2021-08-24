@@ -14,7 +14,7 @@ class RegisterForm(forms.ModelForm):
         fields = ['email']
 
     def clean_email(self):
-        email = self.cleaned_data['email']
+        email = self.cleaned_data.get('email')
         qs = NewUser.objects.filter(email=email)
         if qs.exists():
             raise forms.ValidationError("email is taken")
@@ -24,6 +24,6 @@ class RegisterForm(forms.ModelForm):
         cleaned_data = super().clean()
         password = cleaned_data["password"]
         password_2 = cleaned_data["password_2"]
-        # if password is not None and password != password_2:
-        #     self.add_error("password_2", "Your passwords must match")
+        if password is not None and password != password_2:
+            self.add_error("password_2", "Your passwords must match")
         return cleaned_data

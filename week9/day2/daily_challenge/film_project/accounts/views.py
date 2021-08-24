@@ -19,10 +19,12 @@ class UserCreationView(CreateView):
     template_name = 'signup.html'
 
     def form_valid(self, form):
-        form.save()
+        user = form.save()
+        user.set_password(form.cleaned_data['password'])
+        user.save()
         # Profile.objects.create(user=new_user)
         print(form.cleaned_data)
-        user = authenticate(username=form.cleaned_data['email'], password=form.cleaned_data['password'])
+        user = authenticate(self.request,email=form.cleaned_data['email'], password=form.cleaned_data['password'])
         print(user)
         if user:
             login(self.request, user)
@@ -32,6 +34,9 @@ class UserCreationView(CreateView):
             print('asd')
             return self.form_invalid(form)
 
+    def form_invalid(self, form):
+        print(form.errors)
+        return super().form_invalid(form)
 
 class UserLoginView(LoginView):
     def get(self, request, *args, **kwargs):
