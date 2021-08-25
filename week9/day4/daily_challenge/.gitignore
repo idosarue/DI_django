@@ -1,0 +1,4 @@
+env/
+__pycache__/
+upload_images/upload_images/local_settings.py
+upload_images/db.sqlite3

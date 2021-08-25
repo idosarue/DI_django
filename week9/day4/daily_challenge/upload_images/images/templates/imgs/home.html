@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+
+  {% for image in object_list %}
+  <div class="card" style="width: 18rem;">
+    <p>{{image.timestamp}}</p>
+      <img src="{{image.img.url}}" class="card-img-top" alt="...">
+
+  </div>
+  {% endfor %}
+
+</div>
+{% endblock %}
