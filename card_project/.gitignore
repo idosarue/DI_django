@@ -1,0 +1,4 @@
+env/
+cards/cards/__pycache__
+cards/db.sqlite3
+cards/cards/local_settings.py
