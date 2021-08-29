@@ -18,7 +18,6 @@ class Deck(models.Model):
     car_cards = models.ManyToManyField(PeopleCard)
     vehicle_cards = models.ManyToManyField(VehicleCard)
 
-    @classmethod
-    def deal(cls):
-        for _ in range(6):
-            
+    # @classmethod
+    # def deal(cls):
+    #     for _ in range(6):
