@@ -1,14 +1,15 @@
 
 from accounts.models import Profile, Topic
+from trading.models import Card
 from django.db import models
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from .forms import ProfileForm, SignupForm
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 # Create your views here.
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 class SignupView(CreateView):
     form_class = SignupForm
     template_name = 'accounts/signup.html'
@@ -32,4 +33,17 @@ class SignupView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['profile_form'] = ProfileForm()
+        return context
+
+
+class ProfileDetailView(DetailView):
+    model = Profile
+    template_name = 'accounts/profile.html'
+
+    def get_object(self, queryset=None):
+        return self.request.user.profile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['deck'] = Card.objects.filter(owners= self.request.user.profile.id)
         return context

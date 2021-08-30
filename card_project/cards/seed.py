@@ -23,7 +23,7 @@ def create_topics():
     topic_li = ['Wookie', 'Hutt', 'Jedi', 'StormTrooper(not recommended)']
     for i in topic_li:
         Topic.objects.create(topic=i)
-create_topics()
+# create_topics()
 
 def create_people_cards():
     for data in people:
@@ -53,25 +53,7 @@ def create_rarity():
         new_counter+=1
         x.rarity = new_counter
         x.save()
-    # print(vehicle_cards)
-create_rarity()
-# class Card(models.Model):
-#     CARD_CHOICES = [
-#         ('P', 'People Card'),
-#         ('V', 'Vehicle Card')
-#     ]
-#     name = models.CharField(max_length=50,  default=1)
-#     c_type = models.CharField(choices=CARD_CHOICES, max_length=2)
-#     owner = models.ForeignKey('accounts.Profile', related_name='deck', on_delete=models.CASCADE)
 
+# create_rarity()
 
-# class PeopleCard(Card):
-#     height  = models.CharField(max_length=50)
-#     home_world = models.CharField(max_length=50)
-#     mass = models.CharField(max_length=50)
-
-
-# class VehicleCard(Card):
-#     model   = models.CharField(max_length=50)
-#     vehicle_class  = models.CharField(max_length=50)
-#     max_atmosphering_speed = models.CharField(max_length=50)
+print(Card.deal())

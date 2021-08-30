@@ -2,18 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import PROTECT
 import random
-# class PeopleCard(models.Model):
-#     name = models.CharField(max_length=50)
-#     height  = models.CharField(max_length=50)
-#     home_world = models.CharField(max_length=50)
-#     mass = models.CharField(max_length=50)
-
-# class VehicleCard(models.Model):
-#     name = models.CharField(max_length=50)
-#     model   = models.CharField(max_length=50)
-#     vehicle_class  = models.CharField(max_length=50)
-#     max_atmosphering_speed = models.CharField(max_length=50)
-
 
 class Card(models.Model):
     CARD_CHOICES = [
@@ -25,16 +13,12 @@ class Card(models.Model):
     owners = models.ManyToManyField('accounts.Profile', related_name='deck')
     rarity = models.IntegerField(default=0)
 
-    # @classmethod
-    # def deal(cls):
-    #     cards = cls.objects.all().order_by('rarity')
-    #     vehicle_cards = VehicleCard.objects.all().order_by('max_atmosphering_speed')
-    #     a = vehicle_cards.count() / 10
-    #     for i in cards:
-    #         if i.c_type == "V":
-    #             print(i)h
-    #     print(a)
-    #     return vehicle_cards
+    @classmethod
+    def deal(cls):
+        vehicle_cards = cls.objects.filter(c_type='V').order_by('rarity')
+        people_cards = cls.objects.filter(c_type='P').order_by('rarity')
+        deck = random.sample(list(vehicle_cards), k=6) + random.sample(list(people_cards), k=6)
+        return deck
 
 class PeopleCard(Card):
     height  = models.IntegerField()
@@ -47,10 +31,3 @@ class VehicleCard(Card):
     vehicle_class  = models.CharField(max_length=50)
     max_atmosphering_speed = models.IntegerField()
 
-
-# c = Card.objects.get(id=1)
-# VehicleCard.objects.create(name=, c_type='V',  )
-# if c.c_type == 'P'
-#     c.peoplecard
-# else:
-#     c.vehiclecard
