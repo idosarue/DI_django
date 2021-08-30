@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+    <div class="container">
+        <div class="row">
+            {% for post in object_list %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">Subject: {{post.subject}}</h5>
+                <p class="card-text"> Created by: {% if user == post.creator %} Created by: You {% else %} {{post.creator}} {% endif %}</p>
+                <h5 class="card-title">Comments: </h5>
+                <ul class="list-group list-group-flush">
+                    {% if user.is_authenticated %}
+                    <li class="list-group-item">
+                        {% for comment in post.comment_set.all %}
+                        <li class="list-group-item">Content: {{comment.text}}  Created by: {% if user == comment.creator %} You {% else %} {{post.creator}} {% endif %}</li>
+                        {% endfor %}
+                    <li class="list-group-item"><a class="btn btn-success" href="{% url 'create_comment' post.id %}">Create comment</a></li>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

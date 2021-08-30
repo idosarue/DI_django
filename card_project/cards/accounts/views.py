@@ -36,7 +36,7 @@ class SignupView(CreateView):
         return context
 
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(LoginRequiredMixin,DetailView):
     model = Profile
     template_name = 'accounts/profile.html'
 

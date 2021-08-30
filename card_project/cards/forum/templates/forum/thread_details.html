@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<div class="container">
+
+    <div class="card" style="width: 18rem;">
+        <img src="{{post.img.url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{thread.subject}}</h5>
+          <p class="card-text">Created by: {{thread.creator}}</p>
+          <p class="card-text">{{post.content}}</p>
+            
+          <ul class="list-group list-group-flush">
+            {% if user.is_authenticated %}
+            <li class="list-group-item">
+              <h5>Add a comment</h5>
+              <form method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button>Create comment</button>
+              </form>
+              {% for comment in thread.comment_set.all %}
+                <li>{{comment.text}}, Created by:{{comment.creator}}</li>
+
+              {% endfor %}
+            </li>
+            {% endif %}
+            </ul>
+
+      </div>
+{% endblock %}
