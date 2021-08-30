@@ -14,12 +14,22 @@ class SignupView(CreateView):
     template_name = 'accounts/signup.html'
 
     def form_valid(self, form):
-        print(form.cleaned_data)
         form.save()
         user = authenticate(self.request, username=form.cleaned_data['username'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], email=form.cleaned_data['email'], password=form.cleaned_data['password1'] )   
         if user:
+            profile_form = ProfileForm(self.request.POST)
+            if profile_form.is_valid():
+                profile = profile_form.save(commit=False)
+                profile.user = user
+                profile.save()
+            else:
+                messages.error(self.request, 'Something went wrong')
             login(self.request, user)
         else:
             messages.error(self.request, 'Something went wrong')
         return redirect('home')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile_form'] = ProfileForm()
+        return context
