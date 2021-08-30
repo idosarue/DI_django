@@ -14,7 +14,15 @@ def home(request):
 class TransactionListView(ListView):
     model = Transaction
     template_name = 'trading/home.html'
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        senders = Transaction.objects.all().values_list('trade_sender_id', flat=True)
+        for sender_id in senders:
+            context['trade_sender'] = Profile.objects.get(id=sender_id)
+        print(context)
+        return context
+
 class CreateTradeView(CreateView):
     form_class = TransactionForm
     template_name = 'trading/create_trade.html'
