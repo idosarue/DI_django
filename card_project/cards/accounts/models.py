@@ -8,7 +8,7 @@ class Profile(models.Model):
     topic = models.ForeignKey('Topic', on_delete=PROTECT, default=1)
 
     def __str__(self):
-        return f'{self.topic}'
+        return f'{self.user}'
 
 
 

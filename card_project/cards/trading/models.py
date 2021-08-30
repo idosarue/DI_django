@@ -1,6 +1,7 @@
+from accounts.models import Profile
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.deletion import PROTECT
+from django.db.models.deletion import CASCADE, PROTECT
 import random
 
 class Card(models.Model):
@@ -31,3 +32,10 @@ class VehicleCard(Card):
     vehicle_class  = models.CharField(max_length=50)
     max_atmosphering_speed = models.IntegerField()
 
+class Transaction(models.Model):
+    trade_sender = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='trade_sender')
+    trade_reciever = models.ForeignKey('accounts.Profile', related_name='trade_reciever',  on_delete=CASCADE, default=1)
+    card = models.ForeignKey(Card, on_delete=CASCADE, related_name='owner_deck', default=1)
+
+    # def __str__(self):
+    #     return f'{self.trade_reciever}'

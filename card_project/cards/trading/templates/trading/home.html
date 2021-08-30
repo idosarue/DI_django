@@ -11,4 +11,11 @@
 </ul>
 {% endif %}
     <h1>hello</h1>
+    {% if user.is_authenticated %}
+    {% for transaction in object_list %}
+        {% if transaction.trade_reciever_id == user.profile.id %}
+        {{transaction.trade_sender_id.set}}
+        {% endif %}
+    {% endfor %}
+    {% endif %}
 {% endblock %}
