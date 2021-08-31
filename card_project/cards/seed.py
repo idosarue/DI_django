@@ -23,6 +23,7 @@ def create_topics():
     topic_li = ['Wookie', 'Hutt', 'Jedi', 'StormTrooper(not recommended)']
     for i in topic_li:
         Topic.objects.create(topic=i)
+
 # create_topics()
 
 def create_people_cards():
@@ -56,4 +57,3 @@ def create_rarity():
 
 # create_rarity()
 
-print(Card.deal())

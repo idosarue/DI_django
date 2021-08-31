@@ -14,6 +14,9 @@ class Card(models.Model):
     owners = models.ManyToManyField('accounts.Profile', related_name='deck')
     rarity = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.name
+        
     @classmethod
     def deal(cls):
         vehicle_cards = cls.objects.filter(c_type='V').order_by('rarity')
@@ -32,10 +35,21 @@ class VehicleCard(Card):
     vehicle_class  = models.CharField(max_length=50)
     max_atmosphering_speed = models.IntegerField()
 
-class Transaction(models.Model):
-    trade_sender = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='trade_sender')
-    trade_reciever = models.ForeignKey('accounts.Profile', related_name='trade_reciever',  on_delete=CASCADE, default=1)
-    card = models.ForeignKey(Card, on_delete=CASCADE, related_name='owner_deck', default=1)
+TRADE_CHOICES = [
+    ('A', 'ACCEPT'),
+    ('R', 'REJECT'),
+    ('P','PENDING')
+]
 
-    # def __str__(self):
-    #     return f'{self.trade_reciever}'
+class Transaction(models.Model):
+    trade_sender = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='my_offer')
+    trade_reciever = models.ForeignKey('accounts.Profile', related_name='offer_target',  on_delete=CASCADE, null=True)
+    card = models.ForeignKey(Card, on_delete=CASCADE, related_name='trades', default=1)
+    choice = models.CharField(choices=TRADE_CHOICES, default='P', max_length=10) 
+    trade_choice = models.BooleanField(null=True)
+
+class TransactionResponse(models.Model):
+    trade_sender = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='trade_sender')
+    trade_reciever = models.ForeignKey('accounts.Profile', related_name='trade_reciever',  on_delete=CASCADE, null=True)
+    card = models.ForeignKey(Card, on_delete=CASCADE, related_name='trades_respone', default=1)
+    trade_choice = models.BooleanField(null=True)

@@ -11,6 +11,7 @@
 </ul>
 {% endif %}
     <h1>Trade</h1>
+    <h3>Trade Reciever: {{trade_reciever}}</h3>
     <form method="POST">
         {% csrf_token %} 
         {{form.as_p}}

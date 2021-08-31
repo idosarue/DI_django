@@ -35,7 +35,7 @@ class ThreadDetailView(DetailView):
             return redirect('create_comment', kwargs['pk'])
         return super().get(request, *args, **kwargs)
 
-
+    
 class CreateCommentView(CreateView):
     form_class = CommentForm
     template_name = 'forum/thread_details.html'

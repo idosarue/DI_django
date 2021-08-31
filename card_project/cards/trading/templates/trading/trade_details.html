@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<div class="container">
+    <div class="row">
+
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+            <h5 class="card-title">Sender: {{trade_reciever}}</h5>
+            <h5 class="card-title">Card: {{transaction.card}}</h5>
+                {% if transaction.choice == 'P' and transaction.trade_choice == 1 %}
+                <a href="#" aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
+
+                {% elif transaction.trade_choice == 0 %}
+                <a href="#" aria-disabled="true" class='btn btn-danger' type="submit">Rejected</a>
+                {% endif %}
+    </div>
+</div>
+{% endblock %}

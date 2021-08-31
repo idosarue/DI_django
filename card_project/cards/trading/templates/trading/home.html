@@ -12,11 +12,40 @@
 {% endif %}
     <h1>hello</h1>
     {% if user.is_authenticated %}
+    <div class="container">
+        <div class="row">
     {% for transaction in object_list %}
-        {% if transaction.trade_reciever_id == user.id %}
-            {{trade_sender}}
-            
-        {% endif %}
-    {% endfor %}
-    {% endif %}
+       
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Sender: {% if not transaction.trade_sender == user.profile %}{{transaction.trade_sender}}{% else %} You {% endif %}</h5>
+                    <h5 class="card-title">Card: {{transaction.card}}</h5>
+                    {% if transaction.trade_choice == None %}
+                    <a aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
+                        {% if not transaction.trade_sender == user.profile %}
+                        <a href="{% url 'trade_response' transaction.id 'accept' %}" class='btn btn-success' name='a' type="submit">Accept</a>
+                        <a href="{% url 'trade_response' transaction.id 'reject' %}" class='btn btn-danger' name='a' type="submit">Reject</a>
+                        {% endif %}
+                    {% elif transaction.trade_choice == 1 %}
+                    <a href="#" aria-disabled="true" class='btn btn-success' type="submit">Accepted</a>
+                    <a href="{% url 'trade_response_back' transaction.id  %}" class='btn btn-success' name='a' type="submit">Offer Back</a>
+                    <a href="{% url 'trade_details' transaction.id  %}" class='btn btn-success' name='a' type="submit">Status</a>
+                    {% elif transaction.trade_choice == 0 %}
+                    <a href="#" aria-disabled="true" class='btn btn-danger' type="submit">Rejected</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
 {% endblock %}
+
+{% for transaction2 in transaction_response %}
+{% if transaction2.trade_sender_id == user.profile.id and transaction2.choice == None %}
+<a aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
+{% else %}
+
+{% endif %}
+{% endfor %}
