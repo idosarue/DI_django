@@ -45,5 +45,5 @@ class ProfileDetailView(LoginRequiredMixin,DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['deck'] = Card.objects.filter(owners= self.request.user.profile.id)
+        context['deck'] = Card.objects.filter(owners= self.request.user.profile.id).order_by('rarity')
         return context

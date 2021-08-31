@@ -13,15 +13,6 @@ class TransactionListView(ListView):
     model = Transaction
     template_name = 'trading/home.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     senders = Transaction.objects.all().values_list('trade_sender_id', flat=True)
-    #     senders2 = TransactionResponse.objects.all().values_list('trade_sender_id', flat=True)
-    #     for sender_id in senders:
-    #         context['trade_sender'] = Profile.objects.get(id=sender_id)
-    #     print(context)
-    #     return context
-
 class TradeDetailView(DetailView):
     model = Transaction
     template_name = 'trading/trade_details.html'
@@ -42,18 +33,11 @@ class TradeResponseView(CreateView):
 
     def form_valid(self, form): 
         transaction_response = form.save(commit=False)
-        original_transaction = self.get_trade()
         trade_obj = self.get_trade().trade_sender_id
-        transaction_response.trade_reciever = Profile.objects.get(id=trade_obj)
-        original_transaction.trade_reciever = self.request.user.profile
-        # original_transaction.trade_sender = Profile.objects.get(id=trade_obj)
-        print(original_transaction.trade_reciever, 'orig')
-        print(transaction_response.trade_reciever, 'res')
-
-        transaction_response.trade_sender = self.request.user.profile
+        transaction_response.trade_reciever = self.request.user.profile
+        transaction_response.trade_sender =  Profile.objects.get(id=trade_obj)
         transaction_response.original_transaction = self.get_trade()
         transaction_response.save()
-        original_transaction.save()
         print(transaction_response)
         return super().form_valid(form)
 
@@ -65,10 +49,10 @@ class TradeResponseView(CreateView):
 
 def update_trade_status(request, pk, status):
     transaction = get_object_or_404(Transaction, id=pk)
-
     if status == 'accept':
         transaction.trade_choice = 1
-
+        original_transaction = transaction
+        original_transaction.trade_reciever = request.user.profile
         transaction.save()
         return redirect('trade_response_back', pk)
     else:
@@ -86,19 +70,14 @@ def update_trade_back_status(request, pk, status):
             user2_re = transaction_re
             user1 = Profile.objects.get(id=user1_re.id)
             print(user1, 'user1')
-            user2 = Profile.objects.get(id=user2_re.trade_reciever.id)
+            user2 = Profile.objects.get(id=user2_re.trade_sender.id)
             print(user2, 'user2')
-            card1 = transaction_re.original_transaction.card
-            print(card1, 'card1')
-            card2 = transaction_re.card
+            card2 = transaction_re.original_transaction.card
             print(card2, 'card2')
-
-            user1.deck.remove(card2)
-            user1.deck.add(card1) 
-            user2.deck.remove(card1)
-            user2.deck.add(card2)
-            print(user1.deck.all())
-            print(user2.deck.all())
+            card1 = transaction_re.card
+            print(card1, 'card1')
+            user1.deck.add(card2) 
+            user2.deck.add(card1)
             transaction_re.save()
     else:
         transaction_re.trade_choice = 0

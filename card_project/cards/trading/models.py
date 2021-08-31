@@ -57,8 +57,6 @@ class TransactionResponse(models.Model):
 
 
     def swap_cards(self):
-        user1_re = self.original_transaction.trade_reciever
-        user2_re = self
         if self.original_transaction.trade_choice and self.trade_choice:
             return True
         else:
