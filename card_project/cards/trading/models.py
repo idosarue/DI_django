@@ -16,7 +16,7 @@ class Card(models.Model):
 
     def __str__(self):
         return self.name
-        
+
     @classmethod
     def deal(cls):
         vehicle_cards = cls.objects.filter(c_type='V').order_by('rarity')
@@ -52,4 +52,14 @@ class TransactionResponse(models.Model):
     trade_sender = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='trade_sender')
     trade_reciever = models.ForeignKey('accounts.Profile', related_name='trade_reciever',  on_delete=CASCADE, null=True)
     card = models.ForeignKey(Card, on_delete=CASCADE, related_name='trades_respone', default=1)
+    original_transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, null=True)
     trade_choice = models.BooleanField(null=True)
+
+
+    def swap_cards(self):
+        user1_re = self.original_transaction.trade_reciever
+        user2_re = self
+        if self.original_transaction.trade_choice and self.trade_choice:
+            return True
+        else:
+            return False

@@ -4,17 +4,27 @@
 
 <div class="container">
     <div class="row">
-
+        {% for a in transaction.transactionresponse_set.all %}
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-            <h5 class="card-title">Sender: {{trade_reciever}}</h5>
+            <h5 class="card-title">Sender: {{transaction.trade_reciever}}</h5>
             <h5 class="card-title">Card: {{transaction.card}}</h5>
-                {% if transaction.choice == 'P' and transaction.trade_choice == 1 %}
-                <a href="#" aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
-
-                {% elif transaction.trade_choice == 0 %}
+                {% if a.trade_choice == None %}
+                        {% if not a.trade_reciever == user.profile %}
+                        <a aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
+                        {% else %}
+                        <a href="{% url 'trade_response_status' a.id 'accept' %}" class='btn btn-success' name='a' type="submit">Accept</a>
+                        <a href="{% url 'trade_response_status' a.id 'reject' %}" class='btn btn-danger' name='a' type="submit">Reject</a>
+                        {% endif %}
+                {% elif a.trade_choice == 1 %}
+                <a href="#" aria-disabled="true" class='btn btn-success' type="submit">Accepted</a>
+                {% elif a.trade_choice == 0 %}
                 <a href="#" aria-disabled="true" class='btn btn-danger' type="submit">Rejected</a>
                 {% endif %}
+        </div>
+    {% endfor %}
+
     </div>
+
 </div>
 {% endblock %}

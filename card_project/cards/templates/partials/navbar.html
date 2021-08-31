@@ -20,7 +20,6 @@
             <a class="dropdown-item" href="#">Action</a>
             <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </li>
         <li class="nav-item">
@@ -32,6 +31,7 @@
             <a class="nav-link" href="{% url 'logout' %}">Logout {{user.username}}</a>
         </li>
 
+
         <li class="nav-item">
           <a class="nav-link" href="{% url 'create_trade' %}">Create Trade</a>
       </li>
@@ -42,6 +42,10 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'login' %}">Login</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+        </li>
+
         {% endif %}
       </ul>
       <form class="form-inline my-2 my-lg-0">
