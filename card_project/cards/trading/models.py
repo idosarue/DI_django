@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE, PROTECT
 import random
+from django import forms
 
 class Card(models.Model):
     CARD_CHOICES = [
@@ -24,6 +25,7 @@ class Card(models.Model):
         deck = random.sample(list(vehicle_cards), k=6) + random.sample(list(people_cards), k=6)
         return deck
 
+
 class PeopleCard(Card):
     height  = models.IntegerField()
     home_world = models.CharField(max_length=50)
@@ -44,13 +46,13 @@ TRADE_CHOICES = [
 class Transaction(models.Model):
     trade_sender = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='my_offer')
     trade_reciever = models.ForeignKey('accounts.Profile', related_name='offer_target',  on_delete=CASCADE, null=True)
-    card = models.ForeignKey(Card, on_delete=CASCADE, related_name='trades', default=1)
+    card = models.ForeignKey(Card, on_delete=CASCADE, related_name='card1', default=1)
     choice = models.CharField(choices=TRADE_CHOICES, default='P', max_length=10) 
     trade_choice = models.BooleanField(null=True)
+    timestamp = models.DateTimeField(auto_now=True)
+
 
 class TransactionResponse(models.Model):
-    # trade_sender = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='trade_sender')
-    # trade_reciever = models.ForeignKey('accounts.Profile', related_name='trade_reciever',  on_delete=CASCADE, null=True)
     card = models.ForeignKey(Card, on_delete=CASCADE, related_name='trades_respone', default=1)
     original_transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, null=True)
     trade_choice = models.BooleanField(null=True)

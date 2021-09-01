@@ -1,3 +1,4 @@
+from django.forms import forms
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
@@ -28,32 +29,36 @@ class TradeResponseView(CreateView):
 
     def form_valid(self, form): 
         transaction_response = form.save(commit=False)
-        transaction_response.trade_sender = self.request.user.profile
         transaction_response.original_transaction = self.get_trade()
         transaction_response.save()
         print(transaction_response)
         return super().form_valid(form)
+
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        original_transaction = self.get_trade()
+        sender = original_transaction.trade_sender.deck.all()
+        reciever = original_transaction.trade_reciever.deck.all()
+        dif = list(set(reciever) - set(sender))
+        context['trade_options'] = dif # get the options for trade for user
+        context['trade_sender'] = self.get_trade().trade_sender
+
+        return context
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
         form.fields['card'].queryset = self.request.user.profile.deck.all()
         return form
 
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['trade_sender'] = self.get_trade().trade_sender
-        return context
-
-
-
 def update_trade_status(request, pk, status):
     transaction = get_object_or_404(Transaction, id=pk)
     card = transaction.card
+    user = Profile.objects.get(id=transaction.trade_sender.id)
     if status == 'accept':
         transaction.trade_choice = 1
         transaction.trade_reciever = request.user.profile
-        if not transaction.trade_reciever.deck.filter(id = Card.objects.get(id=card.id).id).exists():
+        if not transaction.trade_reciever.deck.filter(id = Card.objects.get(id=card.id).id).exists(): 
             transaction.save()
             return redirect('trade_response_back', pk)
         else:
@@ -63,6 +68,8 @@ def update_trade_status(request, pk, status):
             return redirect('home')
 
     else:
+        user.score -= 5
+        user.save()
         transaction.trade_choice = 0
         transaction.save()
         return redirect('home')
@@ -90,14 +97,27 @@ def update_trade_back_status(request, pk, status):
                 user2.deck.add(card2)
                 user2.deck.remove(card1)
                 transaction.save()
-                messages.success(request, 'trade was succesfull!')
+                user1.coins += 10
+                user2.coins += 10
+                user1.score += 10
+                user2.score += 10
+                user1.save()
+                user2.save()
+                messages.success(request, 'trade was succesfull! score+10 coins+10')
                 return redirect('home')
         else:
+            user1.score -= 5
+            user2.score -= 5
+            user1.save()
+            user2.save()
             transaction.trade_choice = 0
             transaction.save()
-            messages.error(request, 'You already have that card, you can\'t have duplicates. trade rejected')
+            messages.error(request, 'You already have that card, you can\'t have duplicates. trade rejected -5 points')
             return redirect('home')
     else:
+        user1.score -= 5
+        user1.save()
+        print('asd')
         transaction.trade_choice = 0
         transaction.save()
     return redirect('home')

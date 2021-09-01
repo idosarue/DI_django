@@ -20,6 +20,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Sender: {% if not transaction.trade_sender == user.profile %}{{transaction.trade_sender}}{% else %} You {% endif %}</h5>
                     <h5 class="card-title">Card: {{transaction.card}}</h5>
+                    <h5 class="card-title">Time Created: {{transaction.timestamp}}</h5>
                     {% if transaction.trade_choice == None %}
                     <a aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
                         {% if not transaction.trade_sender == user.profile %}

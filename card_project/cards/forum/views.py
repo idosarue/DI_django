@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Comment, Thread
 # Create your views here.
-
+from accounts.models import Profile
 class threadListView(ListView):
     model = Thread
     template_name = 'forum/all_threads.html'
@@ -15,7 +15,7 @@ class threadListView(ListView):
 class CreateThreadView(CreateView):
     form_class = ThreadForm
     template_name = 'forum/create_post.html'
-    
+
     def form_valid(self, form):
         self.thread = form.save(commit=False)
         self.thread.creator = self.request.user
@@ -61,4 +61,8 @@ class CreateCommentView(CreateView):
         context = super().get_context_data(**kwargs)
         context['thread'] = self.get_thread()
         return context
-    
+
+class leaderBoardView(ListView):
+    model = Profile
+    template_name = 'forum/leaderboard.html'
+    ordering = ['-score']

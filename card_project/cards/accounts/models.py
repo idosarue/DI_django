@@ -6,7 +6,9 @@ from django.db.models.deletion import PROTECT
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     topic = models.ForeignKey('Topic', on_delete=PROTECT, default=1)
-
+    score = models.IntegerField(default=0)
+    coins = models.IntegerField(default=200)
+    
     def __str__(self):
         return f'{self.user}'
 
