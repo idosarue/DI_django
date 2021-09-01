@@ -21,5 +21,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('trading/', include('trading.urls')),
     path('forum/', include('forum.urls')),
-    path('admin/', include('admin_app.urls')),
+    path('admin_app/', include('admin_app.urls')),
 ]

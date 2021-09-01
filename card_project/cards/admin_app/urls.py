@@ -2,6 +2,6 @@ from django.urls import path
 from .import views
 
 urlpatterns = [
-    path('admin/', views.home),
+    path('create_card/', views.CreateCardView.as_view(), name = 'create_card'),
 
 ]

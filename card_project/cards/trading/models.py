@@ -5,6 +5,7 @@ from django.db.models.deletion import CASCADE, PROTECT
 import random
 from django import forms
 
+
 class Card(models.Model):
     CARD_CHOICES = [
         ('P', 'People Card'),

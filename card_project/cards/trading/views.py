@@ -8,7 +8,6 @@ from .forms import TransactionForm, TransactionResponseForm
 from .models import Card, Transaction, TransactionResponse
 from accounts.models import Profile
 from django.contrib.auth.decorators import login_required
-from admin_app.forms import StoreTransactionForm
 
 
 class TransactionListView(LoginRequiredMixin,ListView):
@@ -199,20 +198,12 @@ def sell_card(request, pk):
     card = get_object_or_404(Card, id=pk)
     user = request.user.profile
     user_deck = user.deck
-    if not card in user_deck.all():
-        if user.coins >= card.price:
-            if len(user_deck.all()) <= 15:
-                print(user.coins + card.price)
-                # user_deck.add(card)
-                # user.coins -= card.price
-                # user.save()
-                messages.success(request, 'added card to deck')
-            else:
-                messages.error(request, 'You can\'t have more than 15 cards.')
-
-        else:
-            messages.error(request, 'You don\'t have enough coins')
+    if len(user_deck.all()) > 12:
+        user_deck.remove(card)
+        user.coins += card.price
+        user.save()
+        messages.success(request, 'Card sold.')
     else:
-        messages.error(request, 'You alredy have that card')
-        print('already')
-    return redirect('store')
+        messages.error(request, 'You can\'t have less than 12 cards.')
+    
+    return redirect('profile')
