@@ -37,7 +37,7 @@ def create_vehicle_cards():
         VehicleCard.objects.create(name=data['name'], model=data['model'], vehicle_class=data['vehicle_class'], max_atmosphering_speed=data['max_atmosphering_speed'], c_type="V")
 
 
-create_vehicle_cards()
+# create_vehicle_cards()
 
 
 def create_rarity():

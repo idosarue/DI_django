@@ -11,7 +11,13 @@
 </ul>
 {% endif %}
     <h1>Trade</h1>
-    <h3>Trade Reciever: {{trade_reciever}}</h3>
+    <h3>Trade Reciever: {{trade_sender}}</h3>
+    <h3>Trade Reciever Deck: <small>Remeber to not offer duplicates.</small></h3>
+    <ul>
+        {% for card in trade_sender.user.profile.deck.all%}
+        <li>{{card.name}}</li>
+        {% endfor %}
+    </ul>
     <form method="POST">
         {% csrf_token %} 
         {{form.as_p}}

@@ -49,8 +49,8 @@ class Transaction(models.Model):
     trade_choice = models.BooleanField(null=True)
 
 class TransactionResponse(models.Model):
-    trade_sender = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='trade_sender')
-    trade_reciever = models.ForeignKey('accounts.Profile', related_name='trade_reciever',  on_delete=CASCADE, null=True)
+    # trade_sender = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='trade_sender')
+    # trade_reciever = models.ForeignKey('accounts.Profile', related_name='trade_reciever',  on_delete=CASCADE, null=True)
     card = models.ForeignKey(Card, on_delete=CASCADE, related_name='trades_respone', default=1)
     original_transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, null=True)
     trade_choice = models.BooleanField(null=True)

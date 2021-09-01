@@ -8,9 +8,11 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body">
             <h5 class="card-title">Sender: {{transaction.trade_reciever}}</h5>
-            <h5 class="card-title">Card: {{transaction.card}}</h5>
+            <h5 class="card-title">Original Card: {{transaction.card}}</h5>
+            <h5 class="card-title">offer Card: {{a.card}}</h5>
                 {% if a.trade_choice == None %}
-                        {% if a.trade_reciever == user.profile %}
+                        {% if transaction.trade_reciever == user.profile %}
+                        
                         <a aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
                         {% else %}
                         <a href="{% url 'trade_response_status' a.id 'accept' %}" class='btn btn-success' name='a' type="submit">Accept</a>
