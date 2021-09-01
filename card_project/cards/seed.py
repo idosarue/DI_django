@@ -10,6 +10,7 @@ django.setup()
 
 from accounts.models import Topic
 from trading.models import PeopleCard, VehicleCard, Card
+from admin_app.models import Store
 
 response_people = requests.get('https://swapi.dev/api/people')
 response_vehicles = requests.get("https://swapi.dev/api/vehicles/")
@@ -57,3 +58,9 @@ def create_rarity():
 
 # create_rarity()
 
+def create_stores():
+    for i in range(len(Card.objects.all())):
+        Store.objects.create(name='new')
+    for i in Store.objects.all():
+        i.card.add(*Card.objects.all())
+# create_stores()

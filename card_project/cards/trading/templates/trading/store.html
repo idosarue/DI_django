@@ -32,7 +32,10 @@
                 </ul>
     
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="{% url 'buy_card' card.id %}" class="btn btn-success">Buy</a>
+              <a href="{% url 'buy_card' card.id %}" class="btn btn-success">Buy Card</a>
+              {% if user.is_superuser %}
+              <a href="{% url 'delete_card' card.id %}" class="btn btn-danger">Delete Card</a>
+              {% endif %}
             </div>
           </div>
       {% endfor %}

@@ -19,3 +19,13 @@ class CreateCardView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         messages.success(self.request, 'Added Card')
         return super().form_valid(form)
+
+@login_required
+def delete_card_from_store(request, pk):
+    if request.user.is_superuser:
+        card = get_object_or_404(Card, id=pk)
+        store = Store.objects.filter(card=card)
+        for i in store:
+            i.card.remove(card)
+        messages.success(request, 'Card deleted')
+    return redirect('store')
