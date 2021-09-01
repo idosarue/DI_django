@@ -57,10 +57,3 @@ def create_rarity():
         x.save()
 
 # create_rarity()
-
-def create_stores():
-    for i in range(len(Card.objects.all())):
-        Store.objects.create(name='new')
-    for i in Store.objects.all():
-        i.card.add(*Card.objects.all())
-# create_stores()

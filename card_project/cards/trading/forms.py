@@ -12,7 +12,7 @@ class TransactionResponseForm(forms.ModelForm):
     class Meta:
         model = TransactionResponse
         fields = ['card']
-
+        
 # class CardBuyForm(forms.ModelForm):
 #     class Meta:
 #         model = Card

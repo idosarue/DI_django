@@ -26,6 +26,9 @@
                         {% endfor %}
                     <li class="list-group-item"><a class="btn btn-success" href="{% url 'create_comment' post.id %}">Create comment</a></li>
                     {% endif %}
+                    {% if user.is_superuser %}
+                    <a href="{% url 'delete_thread' post.id %}" class="btn btn-danger">Delete Post</a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
