@@ -10,14 +10,11 @@
     {% endfor %}
 </ul>
 {% endif %}
-<h1>Profile for {{user.username}}</h1>
-<h3>Topic: {{user.profile.topic}}</h3>
-<h3>Coins: {{user.profile.coins}}</h3>
-<h3>Score: {{user.profile.score}}</h3>
+<h1>Store</h1>
 <div class="container" style="min-width: 90vw;">
     
     <div class="row">
-    {% for card in deck %}
+    {% for card in cards %}
         <div class="card" style="width: 18rem;">
             <img src="..." class="card-img-top" alt="...">
             <div class="card-body">
@@ -30,10 +27,12 @@
                     <p class="card-text">Name: {{card.name}}</p>
                     <p class="card-text">Rarity: {{card.rarity}}</p>
                     <p class="card-text">Id: {{card.id}}</p>
+                    <p class="card-text">Price: {{card.price}}</p>
+                    <p class="card-text">Score Needed: {{card.min_score_buy}}</p>
                 </ul>
     
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="{% url 'sell_card' card.if %}" class="btn btn-primary">Sell this Card</a>
+              <a href="{% url 'buy_card' card.id %}" class="btn btn-success">Buy</a>
             </div>
           </div>
       {% endfor %}

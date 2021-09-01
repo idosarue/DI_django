@@ -10,6 +10,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib import messages
 # Create your views here.
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 class SignupView(CreateView):
     form_class = SignupForm
     template_name = 'accounts/signup.html'

@@ -1,6 +1,4 @@
-from django.forms import forms
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from admin_app.models import Store
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
@@ -9,16 +7,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import TransactionForm, TransactionResponseForm
 from .models import Card, Transaction, TransactionResponse
 from accounts.models import Profile
+from django.contrib.auth.decorators import login_required
+from admin_app.forms import StoreTransactionForm
 
-class TransactionListView(ListView):
+
+class TransactionListView(LoginRequiredMixin,ListView):
     model = Transaction
     template_name = 'trading/home.html'
 
-class TradeDetailView(DetailView):
+class TradeDetailView(LoginRequiredMixin, DetailView):
     model = Transaction
     template_name = 'trading/trade_details.html'
 
-class TradeResponseView(CreateView):
+class TradeResponseView(LoginRequiredMixin, CreateView):
     form_class = TransactionResponseForm
     template_name = 'trading/trade_response.html'
     success_url = reverse_lazy('home')
@@ -50,7 +51,8 @@ class TradeResponseView(CreateView):
         form = super().get_form(form_class=form_class)
         form.fields['card'].queryset = self.request.user.profile.deck.all()
         return form
-
+    
+@login_required
 def update_trade_status(request, pk, status):
     transaction = get_object_or_404(Transaction, id=pk)
     card = transaction.card
@@ -74,6 +76,7 @@ def update_trade_status(request, pk, status):
         transaction.save()
         return redirect('home')
 
+@login_required
 def update_trade_back_status(request, pk, status):
     transaction = get_object_or_404(TransactionResponse, id=pk)
     first_trans = transaction.original_transaction
@@ -124,7 +127,7 @@ def update_trade_back_status(request, pk, status):
 
 
 
-class CreateTradeView(CreateView):
+class CreateTradeView(LoginRequiredMixin, CreateView):
     form_class = TransactionForm
     template_name = 'trading/create_trade.html'
     success_url = reverse_lazy('home')
@@ -148,3 +151,68 @@ class CreateTradeView(CreateView):
         form = super().get_form(form_class=form_class)
         form.fields['card'].queryset = self.request.user.profile.deck.all()
         return form
+
+
+class StoreView(LoginRequiredMixin, ListView):
+    model = Store
+    template_name = 'trading/store.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cards'] = Card.objects.all().order_by('rarity')
+        return context
+
+class CardDetailView(LoginRequiredMixin, DetailView):
+    model = Card
+    template_name = 'trading/card_details.html'
+    success_url = reverse_lazy('home')
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class=form_class)
+        form.fields['card'].queryset = self.request.user.profile.deck.all()
+        return form
+
+def buy_card(request, pk):
+    card = get_object_or_404(Card, id=pk)
+    user = request.user.profile
+    user_deck = user.deck
+    if not card in user_deck.all():
+        if user.coins >= card.price:
+            if len(user_deck.all()) <= 15:
+                print(user.coins - card.price)
+                user_deck.add(card)
+                user.coins -= card.price
+                user.save()
+                messages.success(request, 'added card to deck')
+            else:
+                messages.error(request, 'You can\'t have more than 15 cards.')
+
+        else:
+            messages.error(request, 'You don\'t have enough coins')
+    else:
+        messages.error(request, 'You alredy have that card')
+        print('already')
+    return redirect('store')
+
+
+def sell_card(request, pk):
+    card = get_object_or_404(Card, id=pk)
+    user = request.user.profile
+    user_deck = user.deck
+    if not card in user_deck.all():
+        if user.coins >= card.price:
+            if len(user_deck.all()) <= 15:
+                print(user.coins + card.price)
+                # user_deck.add(card)
+                # user.coins -= card.price
+                # user.save()
+                messages.success(request, 'added card to deck')
+            else:
+                messages.error(request, 'You can\'t have more than 15 cards.')
+
+        else:
+            messages.error(request, 'You don\'t have enough coins')
+    else:
+        messages.error(request, 'You alredy have that card')
+        print('already')
+    return redirect('store')

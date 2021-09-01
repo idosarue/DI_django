@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+    <div class="card" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+            <ul>
+                {% if card.c_type == 'P' %}
+                    <h5 class="card-title">Category: People</h5>
+                {% else %}
+                    <h5 class="card-title">Category: Vehicles</h5>
+                {% endif %}
+                <p class="card-text">Name: {{card}}</p>
+                <p class="card-text">Rarity: {{card.rarity}}</p>
+                <p class="card-text">Id: {{card.id}}</p>
+                <p class="card-text">Price: {{card.price}}</p>
+            </ul>
+
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a class='btn btn-success' href="{% url 'buy_card' card.id %}">Buy</a>
+        </div>
+      </div>
+{% endblock %}

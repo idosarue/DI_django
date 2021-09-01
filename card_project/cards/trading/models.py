@@ -14,6 +14,8 @@ class Card(models.Model):
     c_type = models.CharField(choices=CARD_CHOICES, max_length=2)
     owners = models.ManyToManyField('accounts.Profile', related_name='deck')
     rarity = models.IntegerField(default=0)
+    price = models.IntegerField(default=50)
+    min_score_buy = models.IntegerField(default=200)
 
     def __str__(self):
         return self.name
