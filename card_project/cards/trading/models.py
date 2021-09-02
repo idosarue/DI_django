@@ -5,7 +5,6 @@ from django.db.models.deletion import CASCADE, PROTECT
 import random
 from django import forms
 
-
 class Card(models.Model):
     CARD_CHOICES = [
         ('P', 'People Card'),
@@ -17,14 +16,15 @@ class Card(models.Model):
     rarity = models.IntegerField(default=0)
     price = models.IntegerField(default=50)
     min_score_buy = models.IntegerField(default=200)
+    quantity = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
 
     @classmethod
     def deal(cls):
-        vehicle_cards = cls.objects.filter(c_type='V').order_by('rarity')
-        people_cards = cls.objects.filter(c_type='P').order_by('rarity')
+        vehicle_cards = cls.objects.filter(c_type='V', quantity=1).order_by('rarity')
+        people_cards = cls.objects.filter(c_type='P', quantity=1).order_by('rarity')
         deck = random.sample(list(vehicle_cards), k=6) + random.sample(list(people_cards), k=6)
         return deck
 

@@ -159,7 +159,6 @@ class StoreView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         cards_li = [card for card in Store.objects.all() if card.quantity > 0]
-        print(cards_li)
         context['cards'] = cards_li
         return context
 

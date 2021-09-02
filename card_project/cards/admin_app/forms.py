@@ -1,3 +1,4 @@
+from .models import Store
 from django import forms
 from django.contrib.auth.models import User
 from trading.models import Card
@@ -13,3 +14,8 @@ class CreateCardForm(forms.ModelForm):
             raise forms.ValidationError('Card with that name already exists.')
         print(name)
         return name
+
+class AddDeletedCardToStoreForm(forms.ModelForm):
+    class Meta:
+        model = Store
+        fields = ['store_card']
