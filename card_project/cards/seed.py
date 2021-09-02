@@ -27,11 +27,11 @@ def create_people_cards():
     for data in people:
         PeopleCard.objects.create(name=data['name'], height=data['height'], home_world=requests.get(data['homeworld']).json()['name'], mass=data['mass'], c_type="P")
 
-# create_people_cards()
+create_people_cards()
 
 def create_vehicle_cards():
     for data in vehicles:
-        VehicleCard.objects.create(name=data['name'], model=data['model'], vehicle_class=data['vehicle_class'], max_atmosphering_speed=data['max_atmosphering_speed'], c_type="V",  image=f'https://starwars-visualguide.com/assets/img/vehicles/{data["id"]}.jpg')
+        VehicleCard.objects.create(name=data['name'], model=data['model'], vehicle_class=data['vehicle_class'], max_atmosphering_speed=data['max_atmosphering_speed'], c_type="V")
 
 
 # create_vehicle_cards()

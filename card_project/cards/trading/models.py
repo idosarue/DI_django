@@ -17,7 +17,6 @@ class Card(models.Model):
     price = models.IntegerField(default=50)
     min_score_buy = models.IntegerField(default=200)
     quantity = models.IntegerField(default=1)
-    image = models.ImageField(null=True)
 
     def __str__(self):
         return self.name
