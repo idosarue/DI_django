@@ -8,6 +8,15 @@ class Profile(models.Model):
     topic = models.ForeignKey('Topic', on_delete=PROTECT, default=1)
     score = models.IntegerField(default=0)
     coins = models.IntegerField(default=200)
+    can_sell = models.BooleanField(default=True)
+
+    def is_seller_deck_valid(self):
+        if len(self.deck.all()) > 12:
+            self.can_sell = True
+            return self.can_sell
+        else:
+            self.can_sell = False
+            return self.can_sell
 
     def __str__(self):
         return f'{self.user}'

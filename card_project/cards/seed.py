@@ -16,9 +16,6 @@ response_people = requests.get('https://swapi.dev/api/people')
 response_vehicles = requests.get("https://swapi.dev/api/vehicles/")
 people = response_people.json()['results']
 vehicles = response_vehicles.json()['results']
-# print(vehicles)
-# for i in people:
-#     print(type(i))
 
 def create_topics():
     topic_li = ['Wookie', 'Hutt', 'Jedi', 'StormTrooper(not recommended)']

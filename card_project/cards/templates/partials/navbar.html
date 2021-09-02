@@ -9,6 +9,9 @@
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
         </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'card_sales' %}">Cards For Sale</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'all_threads' %}">Forum</a>
         </li>
@@ -39,11 +42,12 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout {{user.username}}</a>
         </li>
-
-
+        <li>
+          <a href="{% url 'get_user_to_sell' user.profile.id %}" class="nav-link">Offer Card For Sale</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'create_trade' %}">Create Trade</a>
-      </li>
+        </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'profile' %}">Profile</a>
       </li>

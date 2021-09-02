@@ -33,7 +33,8 @@
                 </ul>
     
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="{% url 'sell_card' card.id %}" class="btn btn-primary">Sell this Card</a>
+              <a href="{% url 'sell_card' card.id %}" class="btn btn-primary">Sell this Card to Store</a>
+              <a href="{% url 'get_user_to_sell' user.profile.id %}">asd</a>
             </div>
           </div>
       {% endfor %}

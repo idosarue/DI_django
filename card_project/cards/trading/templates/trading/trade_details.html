@@ -4,10 +4,10 @@
 
 <div class="container">
     <div class="row">
-        {% for a in transaction.transactionresponse_set.all %}
+        {% for a in transaction.buycardresponse_set.all %}
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-            <h5 class="card-title">Sender: {{transaction.trade_reciever}}</h5>
+            <h5 class="card-title">Sender: {{a.coins}}</h5>
             <h5 class="card-title">Original Card: {{transaction.card}}</h5>
             <h5 class="card-title">offer Card: {{a.card}}</h5>
                 {% if a.trade_choice == None %}

@@ -60,9 +60,10 @@ class TransactionResponse(models.Model):
     original_transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, null=True)
     trade_choice = models.BooleanField(null=True)
 
-
-    def swap_cards(self):
-        if self.original_transaction.trade_choice and self.trade_choice:
-            return True
-        else:
-            return False
+class SellCardTransaction(models.Model):
+    seller = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='seller')
+    buyer = models.ForeignKey('accounts.Profile', related_name='buyer',  on_delete=CASCADE, null=True)
+    card = models.ForeignKey(Card, on_delete=CASCADE, related_name='card_sell', default=1)
+    choice = models.CharField(choices=TRADE_CHOICES, default='P', max_length=10) 
+    trade_choice = models.BooleanField(null=True)
+    timestamp = models.DateTimeField(auto_now=True)

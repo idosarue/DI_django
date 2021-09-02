@@ -8,11 +8,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Comment, Thread
 # Create your views here.
 from accounts.models import Profile
-class threadListView(ListView):
+
+class threadListView(LoginRequiredMixin, ListView):
     model = Thread
     template_name = 'forum/all_threads.html'
 
-class CreateThreadView(CreateView):
+class CreateThreadView(LoginRequiredMixin,CreateView):
     form_class = ThreadForm
     template_name = 'forum/create_post.html'
 
@@ -26,7 +27,7 @@ class CreateThreadView(CreateView):
     def get_success_url(self):
         return reverse_lazy('thread_detail', kwargs={'pk':self.thread.id})
 
-class ThreadDetailView(DetailView):
+class ThreadDetailView(LoginRequiredMixin, DetailView):
     model = Thread
     template_name = 'forum/thread_details.html'
 
@@ -36,7 +37,7 @@ class ThreadDetailView(DetailView):
         return super().get(request, *args, **kwargs)
 
     
-class CreateCommentView(CreateView):
+class CreateCommentView(LoginRequiredMixin,CreateView):
     form_class = CommentForm
     template_name = 'forum/thread_details.html'
 

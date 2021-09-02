@@ -1,5 +1,5 @@
 from django import forms
-from .models import Transaction, TransactionResponse
+from .models import Transaction, TransactionResponse, SellCardTransaction
 from django.contrib.auth.models import User
 from trading.models import Card
 
@@ -13,7 +13,10 @@ class TransactionResponseForm(forms.ModelForm):
         model = TransactionResponse
         fields = ['card']
         
-# class CardBuyForm(forms.ModelForm):
-#     class Meta:
-#         model = Card
-#         fields = ['card']
+
+class SellCardTransactionForm(forms.ModelForm):
+
+    class Meta:
+        model = SellCardTransaction
+        fields = ['card']
+

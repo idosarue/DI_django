@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+    <h1>hello</h1>
+    {% if user.is_authenticated %}
+    <div class="container">
+        <div class="row">
+    {% for transaction in object_list %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Seller: {% if not transaction.seller == user.profile %}{{transaction.seller}}{% else %} You {% endif %}</h5>
+                    <h5 class="card-title">Card: {{transaction.card}}</h5>
+                    <h5 class="card-title">Base Price: {{transaction.card.price}}</h5>
+                    <h5 class="card-title">Time Created: {{transaction.timestamp}}</h5>
+                    {% if transaction.trade_choice == None %}
+                    <a aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
+                        {% if not transaction.seller == user.profile %}
+                        <a href="{% url 'offer_card_status' transaction.id 'accept' %}" class='btn btn-success' name='a' type="submit">Accept</a>
+                        <a href="{% url 'offer_card_status' transaction.id 'reject' %}" class='btn btn-danger' name='a' type="submit">Reject</a>
+                        {% endif %}
+                    {% elif transaction.trade_choice == 1 %}
+                    <a href="#" aria-disabled="true" class='btn btn-success' type="submit">Accepted</a>
+                    {% elif transaction.trade_choice == 0 %}
+                    <a href="#" aria-disabled="true" class='btn btn-danger' type="submit">Rejected</a>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                    <a href="{% url 'delete_trade' transaction.id %}" class="btn btn-danger">Delete Trade</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% for transaction2 in transaction_response %}
+{% if transaction2.trade_sender_id == user.profile.id and transaction2.choice == None %}
+<a aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
+{% else %}
+
+{% endif %}
+{% endfor %}
