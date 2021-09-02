@@ -1,3 +1,4 @@
+from admin_app.models import Store
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
@@ -152,8 +153,15 @@ class CreateTradeView(LoginRequiredMixin, CreateView):
 
 
 class StoreView(LoginRequiredMixin, ListView):
-    model = Card
+    model = Store
     template_name = 'trading/store.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cards_li = [card for card in Store.objects.all() if card.quantity > 0]
+        print(cards_li)
+        context['cards'] = cards_li
+        return context
 
 class CardDetailView(LoginRequiredMixin, DetailView):
     model = Card

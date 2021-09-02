@@ -2,6 +2,6 @@ from django.db import models
 from trading.models import Card
 # Create your models here.
 
-# class Store(models.Model):
-#     name = models.CharField(max_length=20, default='store1')
-#     card = models.ManyToManyField(Card)
+class Store(models.Model):
+    quantity = models.IntegerField(default=1)
+    store_card = models.ForeignKey(Card, on_delete=models.CASCADE)
