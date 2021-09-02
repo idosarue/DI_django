@@ -39,6 +39,10 @@ class TradeResponseView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         original_transaction = self.get_trade()
+        sender = original_transaction.trade_sender.deck.all()
+        reciever = original_transaction.trade_reciever.deck.all()
+        dif = list(set(reciever) - set(sender))
+        context['trade_options'] = dif # get the options for trade for user
         context['trade_sender'] = self.get_trade().trade_sender
         return context
 
@@ -56,6 +60,7 @@ def update_trade_status(request, pk, status):
         transaction.trade_choice = 1
         transaction.trade_reciever = request.user.profile
         if not transaction.trade_reciever.deck.filter(id = Card.objects.get(id=card.id).id).exists(): 
+            transaction.choice = 'A'
             transaction.save()
             return redirect('trade_response_back', pk)
         else:
@@ -82,7 +87,8 @@ def update_trade_back_status(request, pk, status):
     card2 = second_trans.card
     if status == 'accept':
         if not user1.deck.filter(id = Card.objects.get(id=card2.id).id).exists():
-            transaction.trade_choice = 1 
+            transaction.trade_choice = 1
+            print(transaction.original_transaction.choice)
             if transaction.swap_cards():
                 print(user1, 'user1')
                 print(user2, 'user2')
@@ -90,10 +96,12 @@ def update_trade_back_status(request, pk, status):
                 print(second_trans.card, 'secontrans.card')
                 print(card1, 'card1')
                 print(card2, 'card2')
+                print(user1.deck.all(), 'before1')
+                print(user2.deck.all(), 'before2')
                 user1.deck.add(card2) 
                 user1.deck.remove(card1) 
-                user2.deck.add(card2)
-                user2.deck.remove(card1)
+                user2.deck.add(card1)
+                user2.deck.remove(card2)
                 transaction.save()
                 user1.coins += 10
                 user2.coins += 10
@@ -101,6 +109,8 @@ def update_trade_back_status(request, pk, status):
                 user2.score += 10
                 user1.save()
                 user2.save()
+                print(user1.deck.all(), 'after1')
+                print(user2.deck.all(), 'after2')
                 messages.success(request, 'trade was succesfull! score+10 coins+10')
                 return redirect('home')
         else:
@@ -268,7 +278,7 @@ def buy_card(request, pk, status):
         transaction.save()
         return redirect('home')
 
-
+@login_required
 def buy_card_from_store(request, pk):
     card = get_object_or_404(Card, id=pk)
     user = request.user.profile
@@ -287,6 +297,5 @@ def buy_card_from_store(request, pk):
         else:
             messages.error(request, 'You don\'t have enough coins')
     else:
-        messages.error(request, 'You alredy have that card')
-        print('already')
+        messages.error(request, 'You already have that card')
     return redirect('store')

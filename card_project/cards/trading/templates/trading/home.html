@@ -15,13 +15,17 @@
     <div class="container">
         <div class="row">
     {% for transaction in object_list %}
-       
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Sender: {% if not transaction.trade_sender == user.profile %}{{transaction.trade_sender}}{% else %} You {% endif %}</h5>
                     <h5 class="card-title">Card: {{transaction.card}}</h5>
                     <h5 class="card-title">Time Created: {{transaction.timestamp}}</h5>
-                    {% if transaction.trade_choice == None %}
+                    {% if transaction.choice == 'A' %}
+                    <a href="#" aria-disabled="true" class='btn btn-success' type="submit">Accepted</a>
+                    <a href="{% url 'trade_details' transaction.id  %}" class='btn btn-success' name='a' type="submit">Status</a>
+                    {% elif transaction.choice == 'C'%}
+                    <a aria-disabled="true" class='btn btn-warning' type="submit">Completed</a>
+                    {% elif transaction.trade_choice == None %}
                     <a aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
                         {% if not transaction.trade_sender == user.profile %}
                         <a href="{% url 'trade_response' transaction.id 'accept' %}" class='btn btn-success' name='a' type="submit">Accept</a>

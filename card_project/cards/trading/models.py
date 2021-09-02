@@ -43,7 +43,8 @@ class VehicleCard(Card):
 TRADE_CHOICES = [
     ('A', 'ACCEPT'),
     ('R', 'REJECT'),
-    ('P','PENDING')
+    ('P','PENDING'),
+    ('C', 'COMPLETED')
 ]
 
 class Transaction(models.Model):
@@ -59,6 +60,13 @@ class TransactionResponse(models.Model):
     card = models.ForeignKey(Card, on_delete=CASCADE, related_name='trades_respone', default=1)
     original_transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, null=True)
     trade_choice = models.BooleanField(null=True)
+
+    def swap_cards(self):
+        if self.original_transaction.trade_choice and self.trade_choice:
+            self.original_transaction.choice = "C"
+            return True
+        else:
+            return False
 
 class SellCardTransaction(models.Model):
     seller = models.ForeignKey('accounts.Profile', on_delete=CASCADE, related_name='seller')

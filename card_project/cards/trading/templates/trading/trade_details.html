@@ -4,15 +4,14 @@
 
 <div class="container">
     <div class="row">
-        {% for a in transaction.buycardresponse_set.all %}
+        {% for a in transaction.transactionresponse_set.all %}
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-            <h5 class="card-title">Sender: {{a.coins}}</h5>
+            <h5 class="card-title">Sender: {{transaction.trade_sender}}</h5>
             <h5 class="card-title">Original Card: {{transaction.card}}</h5>
             <h5 class="card-title">offer Card: {{a.card}}</h5>
                 {% if a.trade_choice == None %}
                         {% if transaction.trade_reciever == user.profile %}
-                        
                         <a aria-disabled="true" class='btn btn-warning' type="submit">Pending</a>
                         {% else %}
                         <a href="{% url 'trade_response_status' a.id 'accept' %}" class='btn btn-success' name='a' type="submit">Accept</a>
